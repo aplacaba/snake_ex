@@ -10,7 +10,7 @@ defmodule ExSnake.Scene.Game do
   @tile_size 32
   @snake_starting_size 5
   @tile_radius 8
-  @frame_ms 128
+  @frame_ms 60
   @pellet_score 100
   @game_over_scene ExSnake.Scene.GameOver
 
@@ -55,6 +55,7 @@ defmodule ExSnake.Scene.Game do
     {:ok, state}
   end
 
+  # game loop
   def handle_info(:frame, %{frame_count: frame_count} = state) do
     state = move_snake(state)
 

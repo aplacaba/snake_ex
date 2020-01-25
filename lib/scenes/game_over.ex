@@ -10,7 +10,7 @@ defmodule ExSnake.Scene.GameOver do
   @graph Graph.build(font: :roboto, font_size: 36, clear_color: :black)
   |> text("Game Over", @text_opts)
 
-  @game_scene Elixir.Scene.Game
+  @game_scene ExSnake.Scene.Game
 
   def init(score, opts) do
     viewport = opts[:viewport]
