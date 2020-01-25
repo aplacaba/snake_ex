@@ -25,6 +25,11 @@ defmodule ExSnake.Scene.Game do
       trunc(vp_tile_height / 2)
     }
 
+    pellet_start_coords = {
+      vp_tile_height - 2,
+      trunc(vp_tile_height / 2)
+    }
+
     {:ok, timer} = :timer.send_interval(@frame_ms, :frame)
 
     state = %{
@@ -40,7 +45,8 @@ defmodule ExSnake.Scene.Game do
           body: [snake_start_coords],
           size: @snake_starting_size,
           direction: {1,0}
-        }
+        },
+        pellet: pellet_start_coords
       }
     }
 
@@ -96,6 +102,9 @@ defmodule ExSnake.Scene.Game do
     Enum.reduce(snake, graph, fn {x, y}, graph ->
       draw_tile(graph, x, y, fill: :lime)
     end)
+  end
+  defp draw_object(graph, :pellet, {pellet_x, pellet_y}) do
+    draw_tile(graph, pellet_x, pellet_y, fill: :yellow, id: :pellet)
   end
 
   def draw_tile(graph, x, y, opts) do
