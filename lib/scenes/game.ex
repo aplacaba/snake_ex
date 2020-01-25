@@ -12,6 +12,7 @@ defmodule ExSnake.Scene.Game do
   @tile_radius 8
   @frame_ms 128
   @pellet_score 100
+  @game_over_scene ExSnake.Scene.GameOver
 
   def init(_arg, opts) do
     viewport = opts[:viewport]
@@ -121,6 +122,7 @@ defmodule ExSnake.Scene.Game do
     state
     |> put_in([:objects, :snake, :body], new_body)
     |> maybe_eat_pellet(new_head_pos)
+    |> maybe_die()
   end
 
   defp move(%{tile_width: w, tile_height: h}, {pos_x, pos_y}, {vec_x, vec_y}) do
@@ -163,5 +165,12 @@ defmodule ExSnake.Scene.Game do
 
   defp grow_snake(state) do
     update_in(state, [:objects, :snake, :size], &(&1 + 1))
+  end
+
+  defp maybe_die(state = %{viewport: vp, objects: %{snake: %{body: snake}}, score: score}) do
+    if length(Enum.uniq(snake)) < length(snake) do
+      ViewPort.set_root(vp, {@game_over_scene, score})
+    end
+    state
   end
 end
